@@ -9,7 +9,7 @@ router.get('/:id', async (req, res) => {
     console.log('Get user by id request');
     const username = req.params.id;
     const response = await getUser(username);
-    res.status(200).json(response.rows);
+    res.status(200).json(response?.rows);
   } catch(error) {
     console.log(error);
     res.status(500).json({message: error.message});
@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
     const {username, firstName, lastName, password, profilePic} = req.body;
 
     const response = await insertUser({username, firstName, lastName, password, profilePic});
-    res.status(201).json(response.rows[0]);
+    res.status(201).json(response?.rows[0]);
   } catch(error) {
     console.log(error);
     res.status(500).json({message: error.message});
@@ -31,12 +31,12 @@ router.post('/', async (req, res) => {
 
 router.patch('/:id', async (req, res) => {
   try {
-    console.log('Uupdate user request');
+    console.log('Update user request');
     const usernameToUpdate = req.params.id;
     const {username, firstName, lastName, password, profilePic} = req.body;
   
     const response = await updateUser({username, firstName, lastName, password, profilePic}, usernameToUpdate);
-    res.status(200).json(response.rows[0]);
+    res.status(200).json(response?.rows[0]);
   } catch(error) {
     console.log(error);
     res.status(500).json({message: error.message});
@@ -48,7 +48,7 @@ router.delete('/:id', async (req, res) => {
     console.log('Delete user request');
     const username = req.params.id;
     const response = await deleteUser(username);
-    res.status(204).json(response.rows);
+    res.status(204).json(response?.rows);
   } catch(error) {
     console.log(error);
     res.status(500).json({message: error.message});

@@ -24,7 +24,7 @@ async function insertUser(user) {
   keysString = camelToSnakeCase(keysString);
 
   const valuesString = createCommaSeperatedString(Object.keys(user).map(key => user[key]), true);
-
+  if(!valuesString) return;
   return createUserProvider(keysString, valuesString);
 }
 
@@ -44,6 +44,7 @@ async function updateUser(user, username) {
   })
 
   let keyValueString = createCommaSeperatedKeyValueString(user, true);
+  if(!keyValueString) return;
   return updateUserProvider(keyValueString, username);
 }
 

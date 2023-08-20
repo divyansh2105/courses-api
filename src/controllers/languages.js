@@ -19,7 +19,7 @@ function insertLanguage(language) {
   keysString = camelToSnakeCase(keysString);
 
   const valuesString = createCommaSeperatedString(Object.keys(language).map(key => language[key]), true);
-
+  if(!valuesString) return;
   return createLanguageProvider(keysString, valuesString);
 }
 
@@ -36,6 +36,7 @@ function updateLanguage(language, code) {
   })
 
   let keyValueString = createCommaSeperatedKeyValueString(language, true);
+  if(!keyValueString) return;
   return updateLanguageProvider(keyValueString, code);
 }
 

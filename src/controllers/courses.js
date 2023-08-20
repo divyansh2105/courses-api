@@ -13,6 +13,8 @@ const {
   createCommaSeperatedKeyValueString
 } = require('../utils');
 
+const {getLessonsByCourseId} = require('./lessons');
+
 const bcrypt = require('bcrypt');
 
 async function insertCourse(course) {
@@ -22,18 +24,29 @@ async function insertCourse(course) {
   keysString = camelToSnakeCase(keysString);
 
   const valuesString = createCommaSeperatedString(Object.keys(course).map(key => course[key]), true);
-
+  if(!valuesString) return;
   return createCourseProvider(keysString, valuesString);
 }
 
-function getCourse(username) {
+async function getCoursesByUsername(username) {
   let keysString = createCommaSeperatedString(['course_id, course_name, username, active_lesson_id']);
-  return getCourseProvider(keysString, username);
+  const response = await getCourseProvider(keysString, username);
+  const courses = response.rows;
+  return addLessonsToCourses(courses);
 }
 
-function getAllCourses() {
+async function getAllCourses() {
   let keysString = createCommaSeperatedString(['course_id, course_name, username, active_lesson_id']);
-  return getAllCoursesProvider(keysString);
+  const response = await getAllCoursesProvider(keysString);
+  const courses = response.rows;
+  return addLessonsToCourses(courses);
+}
+
+async function addLessonsToCourses(courses) {
+  return Promise.all(courses.map(async (course) => {
+    const lessons = await getLessonsByCourseId(course.course_id, true);
+    return {...course, lessons: lessons.rows};
+  }));
 }
 
 async function updateCourse(course, courseId) {
@@ -44,6 +57,7 @@ async function updateCourse(course, courseId) {
   })
 
   let keyValueString = createCommaSeperatedKeyValueString(course, true);
+  if(!keyValueString) return;
   return updateCourseProvider(keyValueString, courseId);
 }
 
@@ -51,4 +65,4 @@ function deleteCourse(courseId) {
   return deleteCourseProvider(courseId);
 }
 
-module.exports = {getCourse, insertCourse, updateCourse, deleteCourse, getAllCourses};
+module.exports = {getCoursesByUsername, insertCourse, updateCourse, deleteCourse, getAllCourses};
