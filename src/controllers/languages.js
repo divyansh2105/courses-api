@@ -24,14 +24,15 @@ function insertLanguage(language) {
 }
 
 function getLanguages() {
-  return getLanguagesProvider();
+  let keysString = createCommaSeperatedString(['language_code, language_name']);
+  return getLanguagesProvider(keysString);
 }
 
 function updateLanguage(language, code) {
   removeUndefinedProperties(language);
 
   Object.keys(language).forEach(key => {
-    delete Object.assign(language, {[camelToSnakeCase(key)]: language[key] })[key]; //update all keys from camelcase to snake case
+    key !== camelToSnakeCase(key) && delete Object.assign(language, {[camelToSnakeCase(key)]: language[key] })[key]; //update all keys from camelcase to snake case
   })
 
   let keyValueString = createCommaSeperatedKeyValueString(language, true);

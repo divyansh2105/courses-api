@@ -2,6 +2,8 @@ const express = require('express');
 require('dotenv').config();
 const {databaseConnector} = require('./providers/databaseConnector');
 const languagesRouter = require('./routes/languages');
+const usersRouter = require('./routes/users');
+const coursesRouter = require('./routes/courses');
 const app = express();
 
 app.listen(3000, () => {
@@ -20,3 +22,7 @@ app.listen(3000, () => {
 });
 
 app.use('/api/language', languagesRouter);
+
+app.use('/api/user', usersRouter);
+
+app.use('/api/course', coursesRouter);

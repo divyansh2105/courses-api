@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
   try {
     console.log('Get language request');
     const response = await getLanguages();
-    res.json(response.rows);
+    res.status(200).json(response.rows);
   } catch(error) {
     console.log(error);
     res.status(500).json({message: error.message});
@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
     const {languageName, languageCode} = req.body;
 
     const response = await insertLanguage({languageName, languageCode});
-    res.json(response.rows);
+    res.status(201).json(response.rows[0]);
   } catch(error) {
     console.log(error);
     res.status(500).json({message: error.message});
@@ -34,7 +34,7 @@ router.patch('/:code', async (req, res) => {
     const languageCodeToUpdate =req.params.code;
     const {languageName, languageCode} = req.body;
     const response = await updateLanguage({languageName, languageCode}, languageCodeToUpdate);
-    res.json(response.rows);
+    res.status(200).json(response.rows[0]);
   } catch(error) {
     console.log(error);
     res.status(500).json({message: error.message});
@@ -52,7 +52,7 @@ router.put('/:code', async (req, res) => {
     }
 
     const response = await updateLanguage({languageName, languageCode}, languageCodeToUpdate);
-    res.json(response.rows);
+    res.status(200).json(response.rows[0]);
   } catch(error) {
     console.log(error);
     res.status(500).json({message: error.message});
@@ -64,7 +64,7 @@ router.delete('/:code', async (req, res) => {
     console.log('Delete language by code request');
     const code =req.params.code;
     const response = await deleteLanguage(code);
-    res.json(response.rows);
+    res.status(204).json(response.rows);
   } catch(error) {
     console.log(error);
     res.status(500).json({message: error.message});
@@ -75,7 +75,7 @@ router.delete('', async (req, res) => {
   try {
     console.log('Delete all languages request');
     const response = await deleteAllLanguages();
-    res.json(response.rows);
+    res.status(204).json(response.rows);
   } catch(error) {
     console.log(error);
     res.status(500).json({message: error.message});

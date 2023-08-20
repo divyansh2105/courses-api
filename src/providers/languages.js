@@ -1,17 +1,17 @@
 const {databaseConnector} = require('./databaseConnector');
 
 async function createLanguageProvider(keys, values) {
-  const query = `insert into languages(${keys}) values (${values});`;
+  const query = `insert into languages(${keys}) values (${values}) returning *;`;
   return databaseConnector.query(query);
 }
 
-async function getLanguagesProvider() {
-  const query = 'select language_code, language_name from languages;';
+async function getLanguagesProvider(keysString) {
+  const query = `select ${keysString} from languages;`;
   return databaseConnector.query(query);
 }
 
 async function updateLanguageProvider(keyValueString, code) {
-  const query = `update languages set ${keyValueString} where language_code='${code}';`;
+  const query = `update languages set ${keyValueString} where language_code='${code}' returning *;`;
   return databaseConnector.query(query);
 }
 
