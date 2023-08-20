@@ -18,6 +18,7 @@ class DatabaseConnector {
       database,
       idleTimeoutMillis: timeout
     });
+    console.log(`Connected to DB successfully with the following host: ${host}, user: ${user}, port: ${port} and database: ${database}`);
   }
 
   query(queryRequest) {
@@ -25,6 +26,7 @@ class DatabaseConnector {
   }
 
   disconnect() {
+    //ideally we wont need to call this since the Pool class takes care of managing db connections
     return this.pool.end();
   }
 }
