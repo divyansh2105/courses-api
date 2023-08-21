@@ -21,8 +21,8 @@ class DatabaseConnector {
     console.log(`Connected to DB successfully with the following host: ${host}, user: ${user}, port: ${port} and database: ${database}`);
   }
 
-  query(queryRequest) {
-    return this.pool.query(queryRequest);
+  query(queryRequest, arrayParams = []) {
+    return this.pool.query(queryRequest, arrayParams);
   }
 
   disconnect() {

@@ -1,10 +1,10 @@
 const {databaseConnector} = require('./databaseConnector');
 
-const returningFields = 'username, first_name, last_name';
+const returningFields = 'username, first_name, last_name, profile_pic';
 
-async function createUserProvider(keys, values) {
-  const query = `insert into users(${keys}) values (${values}) returning ${returningFields};`;
-  return databaseConnector.query(query);
+async function createUserProvider(keys, values, placeholderValues) {
+  const query = `insert into users(${keys}) values(${placeholderValues})`;
+  return databaseConnector.query(query, values);
 }
 
 async function getUserProvider(keys, username) {
@@ -12,9 +12,9 @@ async function getUserProvider(keys, username) {
   return databaseConnector.query(query);
 }
 
-async function updateUserProvider(keyValueString, username) {
+async function updateUserProvider(keyValueString, values, username) {
   const query = `update users set ${keyValueString} where username='${username}' returning ${returningFields};`;
-  return databaseConnector.query(query);
+  return databaseConnector.query(query, values);
 }
 
 async function deleteUserProvider(username) {
