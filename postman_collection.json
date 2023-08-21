@@ -1,0 +1,818 @@
+{
+	"info": {
+		"_postman_id": "cc5c7784-bd64-4bfb-a8b1-ec0d203dd82b",
+		"name": "Courses proj",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "languages",
+			"item": [
+				{
+					"name": "Get All",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/language",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"language"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"languageName\": \"german\",\n    \"languageCode\": \"de\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/language",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"language"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"languageName\": \"hindi1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/language/hi",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"language",
+								"hi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Put",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"languageName\": \"hindi2\",\n    \"languageCode\": \"hi\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/language/hi",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"language",
+								"hi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/language/hi",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"language",
+								"hi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete All",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/language",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"language"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "Get By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/user/user2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"user2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "profilePic",
+									"type": "file",
+									"src": "/Users/divyanshdahiya/Downloads/pic.jpeg",
+									"disabled": true
+								},
+								{
+									"key": "firstName",
+									"value": "Amit2",
+									"type": "default"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/user5",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"user5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/user/user3",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"user3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "profilePic",
+									"type": "file",
+									"src": "/Users/divyanshdahiya/Downloads/pic.jpeg"
+								},
+								{
+									"key": "username",
+									"value": "demo2",
+									"type": "default"
+								},
+								{
+									"key": "firstName",
+									"value": "ABC",
+									"type": "default"
+								},
+								{
+									"key": "lastName",
+									"value": "DEF",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "pass",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/user/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Replace pic",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "profilePic",
+									"type": "file",
+									"src": "/Users/divyanshdahiya/Downloads/pic.jpeg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/user/replace-pic/demo2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"replace-pic",
+								"demo2"
+							],
+							"query": [
+								{
+									"key": "profilePic",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "courses",
+			"item": [
+				{
+					"name": "Get By username",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/course/user1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"course",
+								"user1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/course",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"course"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"courseName\": \"CourseDemo2\",\n    \"username\": \"demo2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/course",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"course"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"activeLessonId\": 2,\n    \"courseName\": \"New Cource2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/course/17",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"course",
+								"17"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/course/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"course",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "lessons",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/lesson",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"lesson"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"lessonName\": \"Hindi lesson\",\n    \"courseId\": 17,\n    \"languageCode\": \"hi\",\n    \"lessonText\": \"SUUUPP\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/lesson",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"lesson"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"lessonName\": \"English lesson\",\n    \"courseId\": 17,\n    \"languageCode\": \"hi\",\n    \"lessonText\": \"this is my first english lesson\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/lesson/9",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"lesson",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/lesson/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"lesson",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var res = pm.response.json();",
+									"pm.collectionVariables.set('access_token', res.accessToken);",
+									"console.log(res)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"user3\",\n    \"password\": \"pass\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{authUrl}}/login",
+							"host": [
+								"{{authUrl}}"
+							],
+							"path": [
+								"login"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "abc",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "pass",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var res = pm.response.json();",
+									"pm.collectionVariables.set('access_token', res.accessToken);",
+									"console.log(res)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIxIiwiaWF0IjoxNjkyNjIxODM4fQ.XO0KH9XP9T50971-cXfrSnYoCnpK-P-KDoBph3GG8V8\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{authUrl}}/token",
+							"host": [
+								"{{authUrl}}"
+							],
+							"path": [
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{authUrl}}/logout",
+							"host": [
+								"{{authUrl}}"
+							],
+							"path": [
+								"logout"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "abc",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "pass",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "New Request Copy",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:3000/api",
+			"type": "default",
+			"disabled": true
+		},
+		{
+			"key": "access_token",
+			"value": "init",
+			"type": "default"
+		},
+		{
+			"key": "url",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "authUrl",
+			"value": "",
+			"type": "default"
+		}
+	]
+}

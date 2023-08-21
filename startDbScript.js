@@ -1,6 +1,8 @@
 const { spawn } = require("child_process");
+require('dotenv').config();
+console.log(process.env.POSTGRESQL_DIR)
 
-var child = spawn('pg_ctl', ['-D', '/usr/local/var/postgres', 'start'], {shell: false});
+var child = spawn('pg_ctl', ['-D', process.env.POSTGRESQL_DIR, 'start'], {shell: false});
 
 child.stdout.on('data', (data) => {
   console.log(`stdout: ${data}`);

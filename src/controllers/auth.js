@@ -4,9 +4,8 @@ const bcrypt = require('bcrypt');
 const {getUserPasswordProvider, getUserRefreshTokenProvider} = require('../providers/auth');
 const {updateUser} = require('../controllers/users');
 
-async function loginController(req) {
+async function loginController(username, password) {
   // Authenticate User
-  const {username, password} = req.body;
   const response = await getUserPasswordProvider(username)
   if(!response?.rows.length) {
     throw new Error('User doesnt exist');
@@ -19,7 +18,7 @@ async function loginController(req) {
   }
 
   const accessToken = generateAccessToken({username});
-  const refreshToken = jwt.sign({username}, process.env.REFRESH_TOKEN_SECRET);
+  const refreshToken = jwt.sign({username}, process.env.REFRESH_TOKEN_SECRET); //Refresh tokens can also have an expiration time
   updateUser({refreshToken}, username);
   return { accessToken, refreshToken };
 }
@@ -28,8 +27,7 @@ function generateAccessToken(user) {
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' })
 }
 
-async function tokenController(req) {
-  const {token: refreshToken} = req.body;
+async function tokenController(refreshToken) {
   if (!refreshToken == null) {
     throw new Error('no refresh token found');
     //return res.sendStatus(401)
@@ -56,4 +54,8 @@ async function tokenController(req) {
   })
 }
 
-module.exports = { loginController, tokenController }
+async function logoutController(username) {
+  return updateUser({refreshToken: null}, username);
+}
+
+module.exports = { loginController, tokenController, logoutController }

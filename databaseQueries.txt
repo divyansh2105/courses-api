@@ -1,0 +1,50 @@
+CREATE TABLE Users(  
+    username VARCHAR(50) primary key,  
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50),
+    password VARCHAR(200) NOT NULL,
+    refresh_token VARCHAR,
+    profile_pic BYTEA,
+    CHECK (length(first_name)>0 AND length(username)>0 AND length(password)>0)
+);
+
+insert into Users(username, first_name, last_name, password, profile_pic) values ('user1', 'divyansh', 'dahiya', 'pass', 'pic');
+
+CREATE TABLE Languages(  
+    language_name VARCHAR(50) NOT NULL,
+    language_code VARCHAR(2) primary key
+    CHECK (length(language_name)>0 AND length(language_code)>0)
+);
+
+insert into languages(language_name, language_code) values('english','en');
+
+CREATE TABLE Courses1(  
+    course_id serial primary key,  
+    course_name VARCHAR(50) NOT NULL,
+    active_lesson_id INT,
+    username VARCHAR(50) NOT NULL,
+    FOREIGN KEY (active_lesson_id) REFERENCES Lessons1(lesson_id) ON UPDATE CASCADE ON DELETE SET NULL,
+    FOREIGN KEY (username) REFERENCES Users(username) ON UPDATE CASCADE ON DELETE CASCADE,
+    CHECK (length(course_name)>0)
+);
+
+insert into Courses(course_name, active_lesson_id, username) values ('Course1', null, 'user1');
+
+CREATE TABLE Lessons1(  
+    lesson_id serial primary key,  
+    lesson_name VARCHAR(50) NOT NULL,
+    course_id INT NOT NULL,
+    language_code VARCHAR(2) NOT NULL,
+    lesson_text TEXT,
+    FOREIGN KEY (language_code) REFERENCES Languages(language_code) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (course_id) REFERENCES Courses1(course_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CHECK (length(lesson_name)>0)
+);
+
+insert into Lessons(lesson_name, course_id, language_code, lesson_text) values ('English lesson', 1, 'en', 'this is my first english lesson');
+
+ALTER TABLE languages ADD PRIMARY KEY (language_code);
+
+ALTER TABLE Lessons ADD CONSTRAINT fk_lessons_course FOREIGN KEY (course_id) REFERENCES courses (course_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE Courses ADD CONSTRAINT fk_course_lesson FOREIGN KEY (active_lesson_id) REFERENCES lessons (lesson_id) ON UPDATE CASCADE ON DELETE SET NULL;
