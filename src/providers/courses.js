@@ -7,8 +7,8 @@ async function createCourseProvider(keys, values) {
   return databaseConnector.query(query);
 }
 
-async function getCourseProvider(keys, username) {
-  const query = `select ${keys} from courses where username = '${username}';`;
+async function getCourseProvider(keys, fieldValue, getByField) {
+  const query = `select ${keys} from courses where ${getByField} = '${fieldValue}';`;
   return databaseConnector.query(query);
 }
 

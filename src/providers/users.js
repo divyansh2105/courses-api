@@ -3,7 +3,7 @@ const {databaseConnector} = require('./databaseConnector');
 const returningFields = 'username, first_name, last_name, profile_pic';
 
 async function createUserProvider(keys, values, placeholderValues) {
-  const query = `insert into users(${keys}) values(${placeholderValues})`;
+  const query = `insert into users(${keys}) values(${placeholderValues}) returning ${returningFields}`;
   return databaseConnector.query(query, values);
 }
 

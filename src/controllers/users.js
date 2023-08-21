@@ -41,7 +41,7 @@ function getUser(username) {
   return getUserProvider(keysString, username);
 }
 
-async function updateUser(user, filepath, username) {
+async function updateUser(user, username, filepath='') {
   let imageBuffer = null;
   removeUndefinedProperties(user);
   if(user.password) {

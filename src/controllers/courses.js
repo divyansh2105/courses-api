@@ -28,9 +28,9 @@ async function insertCourse(course) {
   return createCourseProvider(keysString, valuesString);
 }
 
-async function getCoursesByUsername(username) {
+async function getCoursesByField(fieldValue, getByField='username') {
   let keysString = createCommaSeperatedString(['course_id, course_name, username, active_lesson_id']);
-  const response = await getCourseProvider(keysString, username);
+  const response = await getCourseProvider(keysString, fieldValue, getByField);
   const courses = response.rows;
   return addLessonsToCourses(courses);
 }
@@ -65,4 +65,4 @@ function deleteCourse(courseId) {
   return deleteCourseProvider(courseId);
 }
 
-module.exports = {getCoursesByUsername, insertCourse, updateCourse, deleteCourse, getAllCourses};
+module.exports = {getCoursesByField, insertCourse, updateCourse, deleteCourse, getAllCourses};

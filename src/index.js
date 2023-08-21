@@ -5,6 +5,7 @@ const languagesRouter = require('./routes/languages');
 const usersRouter = require('./routes/users');
 const coursesRouter = require('./routes/courses');
 const lessonsRouter = require('./routes/lessons');
+const authRouter = require('./routes/auth');
 const app = express();
 
 app.listen(3000, () => {
@@ -21,6 +22,8 @@ app.listen(3000, () => {
     console.log(err.message);
   } 
 });
+
+app.use('/auth', authRouter);
 
 app.use('/api/language', languagesRouter);
 

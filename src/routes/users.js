@@ -41,7 +41,7 @@ router.patch('/:id', upload.single('profilePic'), async (req, res) => {
     const {username, firstName, lastName, password} = req.body;
     const filepath = req?.file?.path;
 
-    const response = await updateUser({username, firstName, lastName, password}, filepath, usernameToUpdate);
+    const response = await updateUser({username, firstName, lastName, password}, usernameToUpdate, filepath);
     res.status(200).json(response?.rows[0]);
   } catch(error) {
     console.log(error);
@@ -67,7 +67,7 @@ router.post('/replace-pic/:id', upload.single('profilePic'), async (req, res) =>
     const usernameToUpdate = req.params.id;
     const filepath = req?.file?.path;
 
-    const response = await updateUser({}, filepath, usernameToUpdate);
+    const response = await updateUser({}, usernameToUpdate, filepath);
     res.status(200).json(response?.rows[0]);
   } catch(error) {
     console.log(error);
