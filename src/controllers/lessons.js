@@ -1,5 +1,4 @@
 const {
-  getLessonProvider,
   createLessonProvider,
   updateLessonProvider,
   deleteLessonProvider,
@@ -13,8 +12,6 @@ const {
   removeUndefinedProperties,
   createCommaSeperatedKeyValueString
 } = require('../utils');
-
-const bcrypt = require('bcrypt');
 
 async function insertLesson(lesson) {
   removeUndefinedProperties(lesson);

@@ -52,7 +52,7 @@ router.put('/:code', async (req, res) => {
     }
 
     const response = await updateLanguage({languageName, languageCode}, languageCodeToUpdate);
-    res.status(200).json(response?.rows);
+    res.status(200).json(response?.rows?.[0]);
   } catch(error) {
     console.log(error);
     res.status(500).json({message: error.message});

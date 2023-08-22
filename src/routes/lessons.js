@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {getLessonsByUsername, insertLesson, updateLesson, deleteLesson, getAllLessons} = require('../controllers/lessons');
+const {insertLesson, updateLesson, deleteLesson, getAllLessons} = require('../controllers/lessons');
 
 router.use(express.json())
 
@@ -35,7 +35,7 @@ router.patch('/:id', async (req, res) => {
     const {lessonId, lessonName, courseId, languageCode, lessonText} = req.body;
   
     const response = await updateLesson({lessonId, lessonName, courseId, languageCode, lessonText}, lessonIdToUpdate);
-    res.status(200).json(response?.rows);
+    res.status(200).json(response?.rows?.[0]);
   } catch(error) {
     console.log(error);
     res.status(500).json({message: error.message});

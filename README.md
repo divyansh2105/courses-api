@@ -65,7 +65,7 @@ Currently Auth is only enabled for the endpoints for Updating and Deleting a Cou
   - Response body {//updated lesson}
 - Delete (`/:lessonId`) | DELETE
 
-- ### Languages (start with `http://localhost:3000/api/language`)
+### Languages (start with `http://localhost:3000/api/language`)
 - Create language (`/`)| POST
   - Request body {languageName, languageCode //2 letter code}
   - Response body {language_name, language_code}

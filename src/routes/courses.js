@@ -55,7 +55,7 @@ router.patch('/:id', authenticateToken, async (req, res) => {
     }
   
     const response = await updateCourse({courseId, courseName, username, activeLessonId}, courseIdToUpdate);
-    res.status(200).json(response?.rows);
+    res.status(200).json(response?.rows?.[0]);
   } catch(error) {
     console.log(error);
     res.status(500).json({message: error.message});
