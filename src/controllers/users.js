@@ -1,5 +1,5 @@
 const {
-  getUserProvider,
+  getUserByFieldProvider,
   createUserProvider,
   updateUserProvider,
   deleteUserProvider
@@ -12,8 +12,10 @@ const {
   createCommaSeperatedKeyValueString
 } = require('../utils');
 const fs = require('fs').promises;
+const {Users, ErrorMessages} = require('../constants');
 
 const bcrypt = require('bcrypt');
+const { BadRequest } = require('../errors');
 
 async function insertUser(user, filepath) {
   let imageBuffer = null;
@@ -32,16 +34,31 @@ async function insertUser(user, filepath) {
 
   const values = Object.keys(user).map(key => user[key]);
   const placeholderValues = createCommaSeperatedString(values.map((v, index) => `$${index+1}`));
-  if(!values.length) return;
+
+  if(!values.length) throw new BadRequest(ErrorMessages.MISSING_FIELDS);
+
   return createUserProvider(keysString, values, placeholderValues);
 }
 
 function getUser(username) {
-  let keysString = createCommaSeperatedString(['username, first_name, last_name']);
-  return getUserProvider(keysString, username);
+  let keysString = createCommaSeperatedString([Users.USERNAME, Users.FIRST_NAME, Users.LAST_NAME, Users.PROFILE_PIC]);
+  return getUserByFieldProvider(keysString, username, Users.USERNAME);
 }
 
 async function updateUser(user, username, filepath='') {
+  const storedUser = await getUserByFieldProvider(Users.USERNAME, username, Users.USERNAME);
+  if(!storedUser.rows.length) {
+    throw new BadRequest(ErrorMessages.USER_NOT_EXIST);
+  }
+  
+  const {values, placeholderString} = await transformToQueryStrings(user, filepath);
+
+  if(!values.length) throw new BadRequest(ErrorMessages.MISSING_FIELDS);
+
+  return updateUserProvider(placeholderString, values, username);
+}
+
+async function transformToQueryStrings(user, filepath) {
   let imageBuffer = null;
   removeUndefinedProperties(user);
   if(user.password) {
@@ -62,11 +79,14 @@ async function updateUser(user, username, filepath='') {
   Object.keys(user).forEach((key, index) => placeholderObject[key] = `$${index+1}`);
 
   const placeholderString = createCommaSeperatedKeyValueString(placeholderObject);
-  if(!values.length) return;
-  return updateUserProvider(placeholderString, values, username);
+  return {values, placeholderString};
 }
 
-function deleteUser(username) {
+async function deleteUser(username) {
+  const storedUser = await getUserByFieldProvider(Users.USERNAME, username, Users.USERNAME);
+  if(!storedUser.rows.length) {
+    throw new BadRequest(ErrorMessages.USER_NOT_EXIST);
+  }
   return deleteUserProvider(username);
 }
 

@@ -1,15 +1,16 @@
+const { Lessons, Courses, Languages } = require('../constants');
 const {databaseConnector} = require('./databaseConnector');
 
-const returningFields = ['lesson_name', 'course_id', 'language_code', 'lesson_text', 'lesson_id'];
+const returningFields = [Lessons.LESSON_NAME, Courses.COURSE_ID, Languages.LANGUAGE_CODE, Lessons.LESSON_TEXT, Lessons.LESSON_ID];
 
 async function createLessonProvider(keys, values) {
   const query = `insert into lessons(${keys}) values (${values}) returning ${returningFields};`;
   return databaseConnector.query(query);
 }
 
-async function getLessonsByCourseIdProvider(keys, courseId, isOrdered) {
+async function getLessonsByFieldProvider(keys, getByValue, getByField, isOrdered) {
   const orderedQuery = isOrdered ? 'order by lesson_id asc' : '';
-  const query = `select ${keys} from lessons where course_id = '${courseId}' ${orderedQuery};`;
+  const query = `select ${keys} from lessons where ${getByField} = '${getByValue}' ${orderedQuery};`;
   return databaseConnector.query(query);
 }
 
@@ -28,4 +29,4 @@ async function deleteLessonProvider(lessonId) {
   return databaseConnector.query(query);
 }
 
-module.exports = {createLessonProvider, updateLessonProvider, deleteLessonProvider, getAllLessonsProvider, getLessonsByCourseIdProvider};
+module.exports = {createLessonProvider, updateLessonProvider, deleteLessonProvider, getAllLessonsProvider, getLessonsByFieldProvider};

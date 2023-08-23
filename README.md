@@ -12,6 +12,7 @@ Ensure you have Node.js, Git and PostgreSQL installed. Also ensure you have crea
   - `POSTGRESQL_DIR` = /usr/local/var/postgres
 
 - Run `npm run start` which would start the PostgreSQL server and the Backend server.
+- Run `npm run test` to run both unit and integration tests. Tests have been created for the entire code flow of lessons api and can be extended for other endpoints in a similar manner. 
 
 
 ## API endpoints (Postman file included in project `postman.json` which can be imported)

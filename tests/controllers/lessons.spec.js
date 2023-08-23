@@ -1,5 +1,6 @@
-const {insertLesson, updateLesson, getAllLessons, getLessonsByCourseId} = require('../../src/controllers/lessons');
-const {createLessonProvider, updateLessonProvider, getAllLessonsProvider, getLessonsByCourseIdProvider} = require('../../src/providers/lessons');
+const { Courses } = require('../../src/constants');
+const {insertLesson, updateLesson, getAllLessons, getLessonsByField} = require('../../src/controllers/lessons');
+const {createLessonProvider, updateLessonProvider, getAllLessonsProvider, getLessonsByFieldProvider} = require('../../src/providers/lessons');
 const {mockLessonRequest, mockLessonsResponse} = require('../mockData');
 
 
@@ -13,9 +14,9 @@ describe('Controllers - Lessons Test Suite', () => {
     expect(response.rows).toEqual(mockLessonsResponse);
   });
 
-  it('getLessonsByCourseId should succeed', async () => {
-    getLessonsByCourseIdProvider.mockImplementation(() => Promise.resolve({rows: mockLessonsResponse.filter(lesson => lesson.course_id === 2)}));
-    const response = await getLessonsByCourseId(2);
+  it('getLessonsByField should succeed', async () => {
+    getLessonsByFieldProvider.mockImplementation(() => Promise.resolve({rows: mockLessonsResponse.filter(lesson => lesson.course_id === 2)}));
+    const response = await getLessonsByField(2, Courses.COURSE_ID);
     expect(response.rows?.[0]).toBeDefined();
     expect(response.rows).toEqual(mockLessonsResponse.filter(lesson => lesson.course_id === 2));
   });

@@ -5,27 +5,25 @@ const { loginController, tokenController, logoutController } = require('../contr
 
 router.use(express.json())
 
-router.post('/login', async (req, res) => {
+router.post('/login', async (req, res, next) => {
   try {
     console.log('User login request');
     const {username, password} = req.body;
     const { accessToken, refreshToken } = await loginController(username, password);
     res.status(200).json({ accessToken, refreshToken })
   } catch(error) {
-    console.log(error);
-    res.status(500).json({message: error.message});
+    next(error);
   }
 });
 
-router.post('/token', async (req, res) => {
+router.post('/token', async (req, res, next) => {
   try {
     console.log('Token request');
     const {token: refreshToken} = req.body;
     const {accessToken} = await tokenController(refreshToken);
     res.status(200).json({ accessToken })
   } catch(error) {
-    console.log(error);
-    res.status(500).json({message: error.message});
+    next(error);
   }
 });
 
@@ -34,11 +32,10 @@ router.post('/logout', authenticateToken, async (req, res) => {
     console.log('User Logout request');
     const loggedInUser = req.user?.username; 
   
-    const response = await logoutController(loggedInUser);
-    res.status(200).json(response?.rows)
+    await logoutController(loggedInUser);
+    res.status(200).json();
   } catch(error) {
-    console.log(error);
-    res.status(500).json({message: error.message});
+    next(error);
   }
 });
 

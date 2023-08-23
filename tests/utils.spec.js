@@ -5,6 +5,8 @@ const {
   removeUndefinedProperties
 } = require('../src/utils');
 
+const {Lessons, Courses} = require('../src/constants');
+
 describe('Utils Test Suite', () => {
   it('camelToSnakeCase should work correctly', () => {
     const input1 = 'variable', output1 = 'variable';
@@ -23,7 +25,7 @@ describe('Utils Test Suite', () => {
   });
 
   it('createCommaSeperatedString should work correctly', () => {
-    const input1 = ['lesson_name', 'course_id'], output1 = `lesson_name, course_id`;
+    const input1 = [Lessons.LESSON_NAME, Courses.COURSE_ID], output1 = `lesson_name, course_id`;
     const input2 = ['Lesson 1', 2], output2 = `'Lesson 1', 2`;
     expect(createCommaSeperatedString(input1)).toBe(output1);
     expect(createCommaSeperatedString(input2, true)).toBe(output2);

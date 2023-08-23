@@ -3,13 +3,16 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const {getUserPasswordProvider, getUserRefreshTokenProvider} = require('../providers/auth');
 const {updateUser} = require('../controllers/users');
+const {BadRequest, Unauthorised, Forbidden} = require('../errors');
 
 async function loginController(username, password) {
+  if (!username || !password) {
+    throw new BadRequest('username and password required');
+  }
   // Authenticate User
   const response = await getUserPasswordProvider(username)
   if(!response?.rows.length) {
-    throw new Error('User doesnt exist');
-    // return res.status(400).json({ msg: "User not exist" })
+    throw new BadRequest('User doesnt exist');
   }
 
   const matches = await bcrypt.compare(password, response.rows[0].password);
@@ -28,9 +31,8 @@ function generateAccessToken(user) {
 }
 
 async function tokenController(refreshToken) {
-  if (!refreshToken == null) {
-    throw new Error('no refresh token found');
-    //return res.sendStatus(401)
+  if (!refreshToken) {
+    throw new Unauthorised('no refresh token found');
   }
 
   return new Promise((resolve, reject) => {
@@ -41,8 +43,7 @@ async function tokenController(refreshToken) {
         
         const response = await getUserRefreshTokenProvider(username);
         if(!response?.rows.length || response?.rows[0]?.refresh_token !== refreshToken) {
-          //status 403
-          reject(new Error('Refresh token doesnt match, please login'));
+          reject(new Forbidden('Refresh token doesnt match, please login'));
           return;
         }
         const accessToken = generateAccessToken({ username: username });

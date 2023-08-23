@@ -3,7 +3,8 @@ const {
   createLanguageProvider,
   updateLanguageProvider,
   deleteLanguageProvider,
-  deleteAllLanguagesProvider
+  deleteAllLanguagesProvider,
+  getLanguageByFieldProvider
 } = require('../providers/languages');
 
 const {
@@ -13,22 +14,29 @@ const {
   createCommaSeperatedKeyValueString
 } = require('../utils');
 
+const {BadRequest} = require('../errors');
+const {Languages, ErrorMessages} = require('../constants');
+
 function insertLanguage(language) {
   removeUndefinedProperties(language);
   let keysString = createCommaSeperatedString(Object.keys(language));
   keysString = camelToSnakeCase(keysString);
 
   const valuesString = createCommaSeperatedString(Object.keys(language).map(key => language[key]), true);
-  if(!valuesString) return;
+  if(!valuesString) throw new BadRequest(ErrorMessages.MISSING_FIELDS);
   return createLanguageProvider(keysString, valuesString);
 }
 
 function getLanguages() {
-  let keysString = createCommaSeperatedString(['language_code, language_name']);
+  let keysString = createCommaSeperatedString([Languages.LANGUAGE_CODE, Languages.LANGUAGE_NAME]);
   return getLanguagesProvider(keysString);
 }
 
-function updateLanguage(language, code) {
+async function updateLanguage(language, code) {
+  const response = await getLanguageByFieldProvider(Languages.LANGUAGE_CODE, code, Languages.LANGUAGE_CODE);
+  if(!response.rows.length) {
+    throw new BadRequest(`Language doesn't exist`);
+  }
   removeUndefinedProperties(language);
 
   Object.keys(language).forEach(key => {
@@ -36,11 +44,15 @@ function updateLanguage(language, code) {
   })
 
   let keyValueString = createCommaSeperatedKeyValueString(language, true);
-  if(!keyValueString) return;
+  if(!keyValueString) throw new BadRequest(ErrorMessages.MISSING_FIELDS);
   return updateLanguageProvider(keyValueString, code);
 }
 
-function deleteLanguage(code) {
+async function deleteLanguage(code) {
+  const response = await getLanguageByFieldProvider(Languages.LANGUAGE_CODE, code, Languages.LANGUAGE_CODE);
+  if(!response.rows.length) {
+    throw new BadRequest(`Language doesn't exist`);
+  }
   return deleteLanguageProvider(code);
 }
 

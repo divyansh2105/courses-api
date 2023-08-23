@@ -10,10 +10,10 @@ CREATE TABLE Users(
 
 insert into Users(username, first_name, last_name, password, profile_pic) values ('user1', 'divyansh', 'dahiya', 'pass', <Image Buffer>);
 
-CREATE TABLE Languages(  
+CREATE TABLE Languages1(  
     language_name VARCHAR(50) NOT NULL,
-    language_code VARCHAR(2) primary key
-    CHECK (length(language_name)>0 AND length(language_code)>0)
+    language_code VARCHAR(2) primary key,
+    CHECK (length(language_name)>0 AND length(language_code)=2)
 );
 
 insert into languages(language_name, language_code) values('english','en');

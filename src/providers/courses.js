@@ -1,14 +1,15 @@
+const { Courses, Users, Lessons } = require('../constants');
 const {databaseConnector} = require('./databaseConnector');
 
-const returningFields = ['course_id', 'course_name', 'username', 'active_lesson_id'];
+const returningFields = [Courses.COURSE_ID, Courses.COURSE_NAME, Users.USERNAME, Lessons.ACTIVE_LESSON_ID];
 
 async function createCourseProvider(keys, values) {
   const query = `insert into courses(${keys}) values (${values}) returning ${returningFields};`;
   return databaseConnector.query(query);
 }
 
-async function getCourseProvider(keys, fieldValue, getByField) {
-  const query = `select ${keys} from courses where ${getByField} = '${fieldValue}';`;
+async function getCourseByFieldProvider(keys, getByValue, getByField) {
+  const query = `select ${keys} from courses where ${getByField} = '${getByValue}';`;
   return databaseConnector.query(query);
 }
 
@@ -27,4 +28,4 @@ async function deleteCourseProvider(courseId) {
   return databaseConnector.query(query);
 }
 
-module.exports = {getCourseProvider, createCourseProvider, updateCourseProvider, deleteCourseProvider, getAllCoursesProvider};
+module.exports = {getCourseByFieldProvider, createCourseProvider, updateCourseProvider, deleteCourseProvider, getAllCoursesProvider};

@@ -3,7 +3,7 @@ const {
   updateLessonProvider,
   deleteLessonProvider,
   getAllLessonsProvider,
-  getLessonsByCourseIdProvider
+  getLessonsByFieldProvider
 } = require('../providers/lessons');
 
 const {
@@ -13,6 +13,9 @@ const {
   createCommaSeperatedKeyValueString
 } = require('../utils');
 
+const { BadRequest } = require('../errors');
+const { Lessons, Courses, Languages, ErrorMessages } = require('../constants');
+
 async function insertLesson(lesson) {
   removeUndefinedProperties(lesson);
 
@@ -20,21 +23,25 @@ async function insertLesson(lesson) {
   keysString = camelToSnakeCase(keysString);
 
   const valuesString = createCommaSeperatedString(Object.keys(lesson).map(key => lesson[key]), true);
-  if(!valuesString) return;
+  if(!valuesString) throw new BadRequest(ErrorMessages.MISSING_FIELDS);
   return createLessonProvider(keysString, valuesString);
 }
 
-async function getLessonsByCourseId(courseId, isOrdered = false) {
-  let keysString = createCommaSeperatedString(['lesson_id' ,'lesson_name', 'course_id', 'language_code', 'lesson_text']);
-  return getLessonsByCourseIdProvider(keysString, courseId, isOrdered);
+async function getLessonsByField(getByValue, getByField, isOrdered = false) {
+  let keysString = createCommaSeperatedString([Lessons.LESSON_ID ,Lessons.LESSON_NAME, Courses.COURSE_ID, Languages.LANGUAGE_CODE, Lessons.LESSON_TEXT]);
+  return getLessonsByFieldProvider(keysString, getByValue, getByField, isOrdered);
 }
 
 function getAllLessons() {
-  let keysString = createCommaSeperatedString(['lesson_id' ,'lesson_name', 'course_id', 'language_code', 'lesson_text']);
+  let keysString = createCommaSeperatedString([Lessons.LESSON_ID ,Lessons.LESSON_NAME, Courses.COURSE_ID, Languages.LANGUAGE_CODE, Lessons.LESSON_TEXT]);
   return getAllLessonsProvider(keysString);
 }
 
 async function updateLesson(lesson, lessonId) {
+  const response = await getLessonsByField(lessonId, Lessons.LESSON_ID);
+  if(!response.rows.length) {
+    throw new BadRequest(`Lesson doesn't exist`);
+  }
   removeUndefinedProperties(lesson);
 
   Object.keys(lesson).forEach(key => {
@@ -42,12 +49,16 @@ async function updateLesson(lesson, lessonId) {
   })
 
   let keyValueString = createCommaSeperatedKeyValueString(lesson, true);
-  if(!keyValueString) return;
+  if(!keyValueString) throw new BadRequest(ErrorMessages.MISSING_FIELDS);
   return updateLessonProvider(keyValueString, lessonId);
 }
 
-function deleteLesson(lessonId) {
+async function deleteLesson(lessonId) {
+  const response = await getLessonsByField(lessonId, Lessons.LESSON_ID);
+  if(!response.rows.length) {
+    throw new BadRequest(`Lesson doesn't exist`);
+  }
   return deleteLessonProvider(lessonId);
 }
 
-module.exports = {getLessonsByCourseId, insertLesson, updateLesson, deleteLesson, getAllLessons};
+module.exports = {getLessonsByField, insertLesson, updateLesson, deleteLesson, getAllLessons};

@@ -10,6 +10,11 @@ async function getLanguagesProvider(keysString) {
   return databaseConnector.query(query);
 }
 
+async function getLanguageByFieldProvider(keys, getByValue, getByField) {
+  const query = `select ${keys} from languages where ${getByField}='${getByValue}';`;
+  return databaseConnector.query(query);
+}
+
 async function updateLanguageProvider(keyValueString, code) {
   const query = `update languages set ${keyValueString} where language_code='${code}' returning *;`;
   return databaseConnector.query(query);
@@ -25,4 +30,4 @@ async function deleteAllLanguagesProvider() {
   return databaseConnector.query(query);
 }
 
-module.exports = {getLanguagesProvider, createLanguageProvider, updateLanguageProvider, deleteLanguageProvider, deleteAllLanguagesProvider};
+module.exports = {getLanguagesProvider, createLanguageProvider, updateLanguageProvider, deleteLanguageProvider, deleteAllLanguagesProvider, getLanguageByFieldProvider};
